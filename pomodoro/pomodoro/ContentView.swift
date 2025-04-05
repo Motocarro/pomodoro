@@ -10,6 +10,7 @@ struct ContentView: View {
     @State private var isPomodoro = true // flag to indicate whether we're in Pomodoro or break phase
     @State private var timer: Timer? // the timer object
     @State private var started = false // flag to indicate whether the timer has started
+    @State private var pauseText = "" // text to display when paused
 
     // Define the body of the view
     var body: some View {
@@ -26,9 +27,20 @@ struct ContentView: View {
                     .edgesIgnoringSafeArea(.all) // make the background fill the entire screen
             }
             // Display the timer text
-            Text(formatTime(currentTime))
-                .font(.system(size: 64, weight: .bold)) // make the text bold and large
-                .foregroundColor(isPomodoro ? .red : .black) // use red text for Pomodoro phase and black text for break phase
+            VStack {
+                Spacer()
+                Text(formatTime(currentTime))
+                    .font(.system(size: 64, weight: .bold)) // make the text bold and large
+                    .foregroundColor(isPomodoro ? .red : .black) // use red text for Pomodoro phase and black text for break phase
+                Spacer()
+                if !isPomodoro {
+                    Text(pauseText)
+                        .font(.system(size: 24, weight: .bold)) // make the text bold
+                        .foregroundColor(.black) // use black text
+                }
+                Spacer()
+                    .frame(height: 100)
+            }
         }
         // Use a tap gesture to start the timer
         .onTapGesture {
@@ -68,6 +80,8 @@ struct ContentView: View {
                 currentTime = breakTime
                 // Vibrate to indicate the phase switch
                 AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                // Update the pause text
+                updatePauseText()
             }
             // If we're in break phase, switch to Pomodoro phase
             else {
@@ -75,7 +89,26 @@ struct ContentView: View {
                 currentTime = time
                 // Vibrate to indicate the phase switch
                 AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                // Reset the pause text
+                pauseText = ""
             }
+        }
+    }
+
+    // Function to update the pause text
+    func updatePauseText() {
+        let messages = [
+            "take a break!",
+            "breathe air",
+            "drink water",
+            "keep going, you're doing great!",
+            "touch grass",
+            "go out"
+        ]
+        pauseText = messages.randomElement() ?? ""
+        // 1 in 1000 chance to display the arch message
+        if Int.random(in: 1...1000) == 1 {
+            pauseText = "i use arch btw"
         }
     }
 }
