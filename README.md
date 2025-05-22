@@ -43,3 +43,9 @@ I'll do my best to address them, but I appreciate your patience and understandin
 Also, note that this code is protected under the GNU GPL v3.0 (see the other tab for info).
 
 Thanks!
+
+## Gallery:
+
+![LightPomodoro](LightPomodoro.png "Light")
+![EasyPomodoro](EasyPomodoro.png "Easy")
+![OpenPomodoro](OpenPomodoro.png "Open")
