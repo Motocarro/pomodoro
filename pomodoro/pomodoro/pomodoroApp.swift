@@ -9,7 +9,7 @@ struct PomodoroApp: App {
                 .statusBar(hidden: true)
                 .persistentSystemOverlays(.hidden)
                 .onAppear {
-                    // Disable the idle timer to prevent the screen from dimming
+                    // Disable the idle timer to prevent the screen from dimming while app is foreground
                     UIApplication.shared.isIdleTimerDisabled = true
                 }
         }
